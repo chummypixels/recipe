@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+import 'package:recipes/recipe.dart';
+import 'package:recipes/recipe_detail.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Recipe Calculator',
+      theme: ThemeData().copyWith(
+        colorScheme: ThemeData()
+            .colorScheme
+            .copyWith(primary: Colors.grey, secondary: Colors.black),
+      ),
+      home: MyHomePage(title: 'Recipe Calculator'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: SafeArea(
+        child: ListView.builder(
+            itemCount: Recipe.samples.length,
+            itemBuilder: (BuildContext context, int index) {
+              // TODO: Update to return Recipe card
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        //TODO: Replace return with return RecipeDetail()
+                        return RecipeDetail(recipe: Recipe.samples[index]);
+                      },
+                    ),
+                  );
+                },
+                child: buildRecipeCard(Recipe.samples[index]),
+              );
+            }),
+      ),
+    );
+  }
+
+  //TODO: Add buildRecipeCard() here
+  Widget buildRecipeCard(Recipe recipe) {
+    return Card(
+      elevation: 2.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            Image(
+              image: AssetImage(recipe.imageUrl),
+            ),
+            SizedBox(
+              height: 14.0,
+            ),
+            Text(
+              recipe.label,
+              style: TextStyle(
+                fontSize: 20.0,
+                fontFamily: 'Palatino',
+                fontWeight: FontWeight.w700,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
